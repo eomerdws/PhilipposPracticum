@@ -16,6 +16,7 @@ var _motion: Vector2 = Vector2.ZERO
 func _ready() -> void:
 	$AnimatedSprite.frames = animated_sprites_to_load[current_status]
 
+
 func _physics_process(delta: float) -> void:
 	_motion = Vector2.ZERO
 
@@ -25,18 +26,12 @@ func _physics_process(delta: float) -> void:
 	elif Input.is_action_pressed("right"):
 		_motion.x += 1
 		$AnimatedSprite.play("walk_right")
-	else:
-		_motion.x = 0
-
-
-	if Input.is_action_pressed("up"):
+	elif Input.is_action_pressed("up"):
 		_motion.y -= 1
 		$AnimatedSprite.play("walk_up")
 	elif Input.is_action_pressed("down"):
 		_motion.y += 1
 		$AnimatedSprite.play("walk_down")
-	else:
-		_motion.y = 0
 
 	if _motion == Vector2.ZERO:
 		$AnimatedSprite.play("idle")
