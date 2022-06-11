@@ -1,0 +1,20 @@
+[remap]
+
+importer="vnen.tiled_tileset_importer"
+type="TileSet"
+path="res://.import/walls.tsx-90c53d09856520f5bd72030b0ea2638d.res"
+
+[deps]
+
+source_file="res://assets/both/walls/walls.tsx"
+dest_files=[ "res://.import/walls.tsx-90c53d09856520f5bd72030b0ea2638d.res" ]
+
+[params]
+
+custom_properties=true
+tile_metadata=true
+image_flags=0
+embed_internal_images=true
+save_tiled_properties=false
+apply_offset=false
+post_import_script=""
