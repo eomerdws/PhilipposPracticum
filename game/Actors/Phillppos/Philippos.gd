@@ -9,12 +9,13 @@ var animated_sprites_to_load: Dictionary = {
 }
 
 var animated_sprites: Dictionary
-export(String) var current_status: String = "awake"
+export(String) var current_status: String
 
 var _motion: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
+	_set_current_status()
 	$AnimatedSprite.frames = animated_sprites_to_load[current_status]
 
 
@@ -42,7 +43,14 @@ func _physics_process(delta: float) -> void:
 
 	var speed = _walk_speed
 
-	if Input.is_action_pressed("run_modifier"):
+	if Input.is_action_pressed("run_modifier") and Gamestate.run_enabled:
 		speed = _walk_speed * _run_speed
 
 	move_and_slide(_motion.normalized() * speed)
+
+
+func _set_current_status() -> void:
+	if Gamestate.awake:
+		current_status = "awake"
+	else:
+		current_status = "asleep"

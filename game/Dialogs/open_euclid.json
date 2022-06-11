@@ -1,0 +1,24 @@
+{
+    "dialog": [
+        {
+            "character": "Euclid",
+            "text": "Welcome, Phillippos. I am so glad you came to listen to my manuscript for Book XII of Elements. You will not be disappointed.",
+            "animation": "talking4"
+        },
+        {
+            "character": "Philippos",
+            "text": "My father wanted me to come. I wanted to learn to fight like in the days of Alexander.",
+            "animation": ""
+        },
+        {
+            "character": "Euclid",
+            "text": "Well, young, Phillippos, your name means elements. Perhaps you can glean something from this manuscript for your glory days.",
+            "animation": "talking2"
+        },
+        {
+            "character": "Philippos",
+            "text": "Yeah it also means, horse, lover, horse lover. Meanings don't matter.",
+            "animation": "idle"
+        }
+    ]
+}

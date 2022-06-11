@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Actors/Phillppos/Awake.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Actors/Phillppos/Philippos.gd" type="Script" id=2]
@@ -6,6 +6,9 @@
 [sub_resource type="CapsuleShape2D" id=80]
 radius = 14.0
 height = 24.0
+
+[sub_resource type="RectangleShape2D" id=81]
+extents = Vector2( 50.5, 25 )
 
 [node name="Philippos" type="KinematicBody2D"]
 collision_mask = 126
@@ -24,3 +27,10 @@ shape = SubResource( 80 )
 current = true
 zoom = Vector2( 0.5, 0.5 )
 smoothing_enabled = true
+
+[node name="DialogDetection" type="Area2D" parent="."]
+collision_mask = 128
+
+[node name="DialogShape" type="CollisionShape2D" parent="DialogDetection"]
+position = Vector2( 40.5, 4 )
+shape = SubResource( 81 )

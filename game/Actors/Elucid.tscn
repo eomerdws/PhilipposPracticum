@@ -330,9 +330,8 @@ height = 45.7611
 [sub_resource type="CircleShape2D" id=71]
 radius = 53.3385
 
-[node name="Elucid" type="RigidBody2D"]
+[node name="Elucid" type="StaticBody2D"]
 collision_layer = 64
-gravity_scale = 0.0
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -346,8 +345,10 @@ scale = Vector2( 1.26598, 0.696756 )
 shape = SubResource( 62 )
 
 [node name="PlayerDetection" type="Area2D" parent="."]
+collision_layer = 128
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
 shape = SubResource( 71 )
 
-[connection signal="body_shape_entered" from="." to="." method="_on_Elucid_body_shape_entered"]
+[connection signal="area_shape_entered" from="PlayerDetection" to="." method="_on_PlayerDetection_area_shape_entered"]
+[connection signal="area_shape_exited" from="PlayerDetection" to="." method="_on_PlayerDetection_area_shape_exited"]

@@ -14,6 +14,10 @@ config/name="PhilipposTheorem"
 run/main_scene="res://Levels/Library/Library.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Gamestate="*res://Autoload/Gamestate.gd"
+
 [importer_defaults]
 
 texture={
@@ -85,6 +89,7 @@ run_modifier={
 2d_physics/layer_5="Items"
 2d_physics/layer_6="Walls"
 2d_physics/layer_7="NPC"
+2d_physics/layer_8="NPC_Dialog_Detection"
 
 [logging]
 

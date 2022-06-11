@@ -59,7 +59,9 @@ tile_data = PoolIntArray( 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65
 [node name="Actors" type="Node" parent="."]
 
 [node name="Philippos" parent="Actors" instance=ExtResource( 2 )]
-position = Vector2( 128, 351 )
+position = Vector2( 741, 264 )
 
 [node name="Elucid" parent="Actors" instance=ExtResource( 3 )]
 position = Vector2( 959, 285 )
+
+[node name="Dialog" type="CanvasLayer" parent="." groups=["DialogLayer"]]
