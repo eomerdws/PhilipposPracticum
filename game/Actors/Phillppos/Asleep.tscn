@@ -370,5 +370,5 @@ animations = [ {
 [node name="Asleep" type="AnimatedSprite"]
 frames = SubResource( 1 )
 animation = "walk_up"
-frame = 8
+frame = 4
 playing = true
