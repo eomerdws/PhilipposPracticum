@@ -1,7 +1,8 @@
 extends KinematicBody2D
 
 
-export(int) var speed: int = 100
+export(int) var _walk_speed: int = 100
+export(float) var _run_speed: float = 1.5
 var animated_sprites_to_load: Dictionary = {
 	"awake": load("res://Actors/Phillppos/Awake.tres"),
 	"asleep": load("res://Actors/Phillppos/Asleep.tres")
@@ -38,5 +39,10 @@ func _physics_process(delta: float) -> void:
 	if _motion == Vector2.ZERO:
 		$AnimatedSprite.play("idle")
 		$AnimatedSprite.stop()
+
+	var speed = _walk_speed
+
+	if Input.is_action_pressed("run_modifier"):
+		speed = _walk_speed * _run_speed
 
 	move_and_slide(_motion.normalized() * speed)
