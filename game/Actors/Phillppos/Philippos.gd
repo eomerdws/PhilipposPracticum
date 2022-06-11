@@ -8,7 +8,7 @@ var animated_sprites_to_load: Dictionary = {
 }
 
 var animated_sprites: Dictionary
-var current_status: String = "awake"
+export(String) var current_status: String = "awake"
 
 var _motion: Vector2 = Vector2.ZERO
 
@@ -23,15 +23,17 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("left"):
 		_motion.x -= 1
 		$AnimatedSprite.play("walk_left")
-	elif Input.is_action_pressed("right"):
+	if Input.is_action_pressed("right"):
 		_motion.x += 1
 		$AnimatedSprite.play("walk_right")
-	elif Input.is_action_pressed("up"):
+	if Input.is_action_pressed("up"):
 		_motion.y -= 1
-		$AnimatedSprite.play("walk_up")
-	elif Input.is_action_pressed("down"):
+		if not (Input.is_action_pressed("left") or Input.is_action_pressed("right")):
+			$AnimatedSprite.play("walk_up")
+	if Input.is_action_pressed("down"):
 		_motion.y += 1
-		$AnimatedSprite.play("walk_down")
+		if not (Input.is_action_pressed("left") or Input.is_action_pressed("right")):
+			$AnimatedSprite.play("walk_down")
 
 	if _motion == Vector2.ZERO:
 		$AnimatedSprite.play("idle")
