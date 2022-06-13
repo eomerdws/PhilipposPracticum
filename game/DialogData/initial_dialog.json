@@ -1,0 +1,16 @@
+{
+    "dialog": [
+        {
+            "texture": "Philippos_large_awake_thinking.png",
+            "text": "Ok. Now that I have arrived in Alexandria, Father told me I needed to find a great teacher.",
+            "animation": "",
+            "trigger": ""
+        },
+        {
+            "texture": "Philippos_large_awake_thinking.png",
+            "text": "Euclid. I must find Euclid.",
+            "animation": "",
+            "trigger": ""
+        }
+    ]
+}

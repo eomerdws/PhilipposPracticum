@@ -1,6 +1,7 @@
 extends Node
 
-var awake: bool = true
+var awake: bool = true  # TODO: Load this user data
+var starting: bool = true # TODO: Load this from user data
 var run_enabled: bool = false
 var _dialog_scene:PackedScene = preload("res://UI/DialogManager.tscn")
 var opened_dialog: Node
