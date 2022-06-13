@@ -9,6 +9,7 @@ _dialog is expected to be an array of JSON objects that appear as:
 	"texture": String
 	"text": String
 	"animation": String
+	"trigger": String
 }
 """
 
@@ -19,7 +20,7 @@ func add_text() -> void:
 
 func add_portrait() -> void:
 	if _dialog[_current_dialog].texture:
-		$CharacterPortrait.texture = load("res://assets/actors/" + _dialog[_current_dialog].texture)
+		$CharacterPortrait.texture = load("res://assets/actors/portraits/" + _dialog[_current_dialog].texture)
 		$CharacterPortrait.visible = true
 	else:
 		$CharacterPortrait.visible = false

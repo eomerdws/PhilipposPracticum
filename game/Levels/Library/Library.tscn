@@ -59,7 +59,7 @@ tile_data = PoolIntArray( 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65
 [node name="Actors" type="Node" parent="."]
 
 [node name="Philippos" parent="Actors" instance=ExtResource( 2 )]
-position = Vector2( 741, 264 )
+position = Vector2( 57, 255 )
 
 [node name="Elucid" parent="Actors" instance=ExtResource( 3 )]
 position = Vector2( 959, 285 )
