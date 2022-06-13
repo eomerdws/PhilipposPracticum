@@ -4,7 +4,7 @@ var awake: bool = true
 var run_enabled: bool = false
 var _dialog_scene:PackedScene = preload("res://UI/DialogManager.tscn")
 var opened_dialog: Node
-const DIALOG_ROOT: String = "res://Dialogs/"
+const DIALOG_ROOT: String = "res://DialogData/"
 
 
 # Gamestate dialog controls
