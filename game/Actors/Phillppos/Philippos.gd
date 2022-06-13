@@ -40,6 +40,11 @@ func _physics_process(delta: float) -> void:
 	if _motion == Vector2.ZERO:
 		$AnimatedSprite.play("idle")
 		$AnimatedSprite.stop()
+		if $Footsteps.is_playing():
+			$Footsteps.stop()
+	else:
+		if !$Footsteps.is_playing():
+			$Footsteps.play()
 
 	var speed = _walk_speed
 
