@@ -9,7 +9,8 @@ var animated_sprites_to_load: Dictionary = {
 }
 
 var animated_sprites: Dictionary
-var die_sleep: bool = false
+var _sleep: bool = false
+var _die: bool = false
 export(String) var current_status: String
 
 var _motion: Vector2 = Vector2.ZERO
@@ -46,7 +47,7 @@ func _physics_process(delta: float) -> void:
 		$AnimatedSprite.play("attack_left")
 		_motion.x += 1
 
-	if !die_sleep:
+	if !_sleep:
 		if !Gamestate.is_dialog_open() and _motion == Vector2.ZERO:
 			clear_animation()
 
@@ -85,8 +86,11 @@ func play_animation(animation: String) -> void:
 	clear_animation()
 	print("Philippos is supposed to " + animation)
 	if animation in $AnimatedSprite.animation:
-		if animation == "die":
-			die_sleep = true
+		if animation == "die" and Gamestate.awake:
+			_sleep = true
+		else:
+			_die == true
+			
 		print("Starting animation!")
 		if $AnimatedSprite.is_playing():
 			$AnimatedSprite.stop()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/both/floors.tres" type="TileSet" id=1]
 [ext_resource path="res://Actors/Phillppos/Philippos.tscn" type="PackedScene" id=2]
@@ -8,12 +8,11 @@
 [ext_resource path="res://assets/awake/furniture.tres" type="TileSet" id=6]
 [ext_resource path="res://assets/both/terrain.tres" type="TileSet" id=7]
 [ext_resource path="res://Levels/Library/Library.gd" type="Script" id=8]
-[ext_resource path="res://Actors/Shapes/CubeEnemy.tscn" type="PackedScene" id=9]
 
 [node name="Library" type="Node2D"]
 script = ExtResource( 8 )
 
-[node name="Environment" type="Node" parent="."]
+[node name="Environment" type="YSort" parent="."]
 
 [node name="Ground" type="TileMap" parent="Environment"]
 tile_set = ExtResource( 7 )
@@ -67,9 +66,6 @@ format = 1
 tile_data = PoolIntArray( 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 65543, 2, 0, 65544, 2, 0, 65545, 0, 0, 65546, 0, 0, 65547, 0, 0, 65548, 2, 0, 65549, 0, 0, 65550, 0, 0, 65551, 0, 0, 65552, 0, 0, 65553, 2, 0, 65554, 0, 0, 65555, 0, 0, 65556, 0, 0, 65557, 2, 0, 65558, 2, 0, 65559, 0, 0, 65560, 4, 0, 65561, 0, 0, 65562, 0, 0, 65563, 0, 0, 65564, 2, 0, 65565, 0, 0, 65566, 0, 0, 196608, 3, 0, 196639, 3, 0, 327685, 5, 0, 393231, 1, 0, 589846, 1, 0, 655365, 5, 0, 720925, -1610612736, 0, 786461, -1610612736, 0, 851997, -1610612736, 0, 917533, -1610612736, 0, 983041, 1610612736, 0, 983042, 1610612736, 0, 983043, 1610612736, 0, 983044, 1610612736, 0, 983045, 1610612736, 0, 983046, 1610612736, 0, 983047, 1610612736, 0, 983048, 1610612736, 0, 983049, 1610612736, 0, 983050, 1610612736, 0, 983051, 1610612736, 0, 983052, 1610612736, 0, 983053, 1610612736, 0, 983054, 1610612736, 0, 983055, 1610612736, 0, 983056, 1610612736, 0, 983057, 1610612736, 0, 983058, 1610612736, 0, 983059, 1610612736, 0, 983060, 1610612736, 0, 983061, 1610612736, 0, 983062, 1610612736, 0, 983063, 1610612736, 0, 983064, 1610612736, 0, 983065, 1610612736, 0, 983066, 1610612736, 0, 983069, -1610612736, 0, 1048605, -1610612736, 0 )
 
 [node name="Actors" type="Node" parent="."]
-
-[node name="CubeEnemy" parent="Actors" instance=ExtResource( 9 )]
-position = Vector2( 326, 311 )
 
 [node name="Philippos" parent="Actors" instance=ExtResource( 2 )]
 position = Vector2( 57, 255 )

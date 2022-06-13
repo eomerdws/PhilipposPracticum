@@ -3,13 +3,14 @@ extends KinematicBody2D
 var has_grown: bool = false
 var move_toward_player: bool = false
 var _velocity: Vector2 = Vector2.ZERO
-const SPEED: int = 100
+const SPEED: int = 10
 
 
 func _on_Detection_body_entered(body: Node) -> void:
 	if body.name == "Philippos":
 		if !has_grown:
 			$AnimatedSprite.play("grow")
+			$GrowTimer.start()
 			has_grown = true
 		else:
 			move_toward_player = true
@@ -32,11 +33,10 @@ func _physics_process(delta: float) -> void:
 	if move_toward_player:
 		print("Moving toward Philippos!")
 		_velocity = Vector2.ZERO
-		var _target: Vector2 = get_tree().get_nodes_in_group("Philippos")[0].position
-		_velocity.move_toward(_target, delta)
-		_velocity.angle_to(_target)
-
-		move_and_collide(_velocity * SPEED)
+		var _target_position: Vector2 = get_tree().get_nodes_in_group("Philippos")[0].position
+		_velocity = (_target_position - global_position).normalized() * SPEED
+		rotation = _velocity.angle()
+		move_and_collide(_velocity)
 
 
 func die() -> void:
