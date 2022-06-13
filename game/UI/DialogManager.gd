@@ -28,6 +28,9 @@ func add_portrait() -> void:
 
 func add_dialog(json: Array) -> void:
 	_dialog = json
+	if _dialog.size() > 1:
+		$DilaogWindow/Next.connect("pressed", self, "_next")
+		$DilaogWindow/Next.visible = true
 	run_dialog()
 
 
