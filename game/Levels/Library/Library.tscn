@@ -1,13 +1,14 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/both/floors.tres" type="TileSet" id=1]
 [ext_resource path="res://Actors/Phillppos/Philippos.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Actors/Elucid.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Actors/Euclid.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/both/walls.tres" type="TileSet" id=4]
 [ext_resource path="res://assets/both/ceilings.tres" type="TileSet" id=5]
 [ext_resource path="res://assets/awake/furniture.tres" type="TileSet" id=6]
 [ext_resource path="res://assets/both/terrain.tres" type="TileSet" id=7]
 [ext_resource path="res://Levels/Library/Library.gd" type="Script" id=8]
+[ext_resource path="res://Actors/Shapes/CubeEnemy.tscn" type="PackedScene" id=9]
 
 [node name="Library" type="Node2D"]
 script = ExtResource( 8 )
@@ -67,10 +68,13 @@ tile_data = PoolIntArray( 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65
 
 [node name="Actors" type="Node" parent="."]
 
+[node name="CubeEnemy" parent="Actors" instance=ExtResource( 9 )]
+position = Vector2( 326, 311 )
+
 [node name="Philippos" parent="Actors" instance=ExtResource( 2 )]
 position = Vector2( 57, 255 )
 
-[node name="Elucid" parent="Actors" instance=ExtResource( 3 )]
-position = Vector2( 959, 285 )
+[node name="Euclid" parent="Actors" instance=ExtResource( 3 )]
+position = Vector2( 964, 300 )
 
 [node name="Dialog" type="CanvasLayer" parent="." groups=["DialogLayer"]]

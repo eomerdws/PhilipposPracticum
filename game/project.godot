@@ -16,6 +16,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+Events="*res://Autoload/Events.gd"
 Gamestate="*res://Autoload/Gamestate.gd"
 
 [importer_defaults]

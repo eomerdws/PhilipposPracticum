@@ -1,51 +1,59 @@
 {
     "dialog": [
         {
+            "character": "Euclid",
             "texture": "Euclid_large_awake.png",
             "text": "Welcome, Philippos. I am so glad you came to listen to my manuscript for Book XII of Elements. You will not be disappointed.",
             "animation": "talking4",
             "trigger": ""
         },
         {
+            "character": "Philippos",
             "texture": "Philippos_large_awake.png",
-            "text": "My father wanted me to come and learn from the \"great\" Euclid. I on the other hand wanted to learn to fight like in the days of Alexander.",
+            "text": "My father wanted me to come and learn from the \"great\" Euclid. I on the other hand wanted to a solider as in the days of Alexander.",
             "animation": "",
             "trigger": ""
         },
         {
+            "character": "Euclid",
             "texture": "Euclid_large_awake.png",
             "text": "Well, young, Phillippos, your name means elements. Perhaps you can glean something from this manuscript for your glory days.",
             "animation": "talking2",
             "trigger": ""
         },
         {
+            "character": "Philippos",
             "texture": "Philippos_large_awake.png",
             "text": "Yeah it also means, horse, lover, horse lover. Meanings don't matter.",
             "animation": "idle",
             "trigger": ""
         },
         {
+            "character": "Euclid",
             "texture": "Euclid_large_awake.png",
             "text": "Shall we begin? The laws of nature are but the mathematical thoughts of God.",
             "animation": "talking 2",
             "trigger": ""
         },
         {
+            "character": "Philippos",
             "texture": "Philippos_large_awake.png",
             "text": "Can't we learn geometry an easier way?",
             "animation": "idle",
             "trigger": ""
         },
         {
+            "character": "Euclid",
             "texture": "Euclid_large_awake.png",
             "text": "There is no Royal Road to Geometry. Now pay attention. Proposition 1. Similar polygons inscribed....",
-            "animation": "idle",
+            "animation": "talking4",
             "trigger": ""
         },
         {
+            "character": "Philippos",
             "texture": "Philippos_large_awake_thinking.png",
             "text": "Oh man. He can really drone on and on, and he is only just getting started. Why couldn't my father have let me be in army instead?!?",
-            "animation": "",
+            "animation": "die",
             "trigger": "transition_to_sleep"
         }
     ]

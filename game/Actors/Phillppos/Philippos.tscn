@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Actors/Phillppos/Awake.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Actors/Phillppos/Philippos.gd" type="Script" id=2]
@@ -9,15 +9,18 @@ radius = 14.0
 height = 24.0
 
 [sub_resource type="RectangleShape2D" id=81]
-extents = Vector2( 50.5, 25 )
+extents = Vector2( 30, 25 )
 
-[node name="Philippos" type="KinematicBody2D"]
+[sub_resource type="CapsuleShape2D" id=82]
+radius = 6.0
+
+[node name="Philippos" type="KinematicBody2D" groups=["Philippos"]]
 collision_mask = 126
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = ExtResource( 1 )
-animation = "trust_right"
+animation = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 5 )
@@ -33,8 +36,17 @@ smoothing_enabled = true
 collision_mask = 128
 
 [node name="DialogShape" type="CollisionShape2D" parent="DialogDetection"]
-position = Vector2( 40.5, 4 )
+position = Vector2( 20, 4 )
 shape = SubResource( 81 )
 
 [node name="Footsteps" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
+
+[node name="Attack" type="Area2D" parent="."]
+position = Vector2( 1, 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
+modulate = Color( 0.960784, 0.439216, 0.439216, 1 )
+position = Vector2( 23, 9 )
+rotation = 1.5708
+shape = SubResource( 82 )
