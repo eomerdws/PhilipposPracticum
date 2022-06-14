@@ -5,7 +5,7 @@ var move_toward_player: bool = false
 var _velocity: Vector2 = Vector2.ZERO
 const SPEED: int = 10
 
-var acceleration := GAISTargetAcceleration.new()
+var acceleration := GSAITargetAcceleration.new()
 
 
 
