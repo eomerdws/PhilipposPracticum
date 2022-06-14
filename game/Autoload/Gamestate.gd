@@ -1,6 +1,6 @@
 extends Node
 
-var awake: bool = true # TODO: Load this user data
+var _awake: bool = true
 var starting: bool = true # TODO: Load this from user data
 var run_enabled: bool = false
 var _dialog_scene:PackedScene = preload("res://UI/DialogManager.tscn")
@@ -45,3 +45,11 @@ func dialog_play_animation(character_name: String, animation: String) -> void:
 
 func is_dialog_open() -> bool:
 	return is_instance_valid(opened_dialog) and !opened_dialog.is_queued_for_deletion()
+
+
+func set_awake(is_awake: bool) -> void:
+	_awake = is_awake
+
+
+func is_awake() -> bool:
+	return _awake

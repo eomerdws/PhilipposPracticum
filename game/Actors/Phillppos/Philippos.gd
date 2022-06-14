@@ -3,6 +3,8 @@ extends KinematicBody2D
 
 export(int) var _walk_speed: int = 100
 export(float) var _run_speed: float = 1.5
+export(bool) var awake: bool
+
 var animated_sprites_to_load: Dictionary = {
 	"awake": load("res://Actors/Phillppos/Awake.tres"),
 	"asleep": load("res://Actors/Phillppos/Asleep.tres")
@@ -11,13 +13,13 @@ var animated_sprites_to_load: Dictionary = {
 var animated_sprites: Dictionary
 var _sleep: bool = false
 var _die: bool = false
-export(String) var current_status: String
-
 var _motion: Vector2 = Vector2.ZERO
+var current_status: String
 
 
 func _ready() -> void:
 	_set_current_status()
+	#print(self.get_owner().name)
 	$AnimatedSprite.frames = animated_sprites_to_load[current_status]
 
 
@@ -67,7 +69,8 @@ func _physics_process(delta: float) -> void:
 
 
 func _set_current_status() -> void:
-	if Gamestate.awake:
+	Gamestate.set_awake(awake)
+	if awake:
 		current_status = "awake"
 		$Attack.monitoring = false
 	else:

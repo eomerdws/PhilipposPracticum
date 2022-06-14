@@ -1,9 +1,12 @@
-extends KinematicBody2D
+extends NPC
 
 var has_grown: bool = false
 var move_toward_player: bool = false
 var _velocity: Vector2 = Vector2.ZERO
 const SPEED: int = 10
+
+var acceleration := GAISTargetAcceleration.new()
+
 
 
 func _on_Detection_body_entered(body: Node) -> void:
