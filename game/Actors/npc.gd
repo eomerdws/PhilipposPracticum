@@ -7,7 +7,7 @@ export(int) var proximity_radius: int = 100
 
 export(float) var speed_max: float = 450.0
 export(float) var accel_max: float = 50.0
-export (float) var angular_speed: float = 240
+export (float) var angular_speed_max: float = 240
 export(float) var angular_accel_max: float = 40
 
 var _velocity: Vector2 = Vector2.ZERO
