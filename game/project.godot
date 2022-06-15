@@ -194,7 +194,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="PhilipposTheorem"
+config/name="PhilipposPracticum"
 run/main_scene="res://Levels/Library/Library.tscn"
 config/icon="res://icon.png"
 
