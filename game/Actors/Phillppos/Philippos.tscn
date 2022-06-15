@@ -5,8 +5,8 @@
 [ext_resource path="res://assets/snd/490951__nox-sound__footsteps-concrete.ogg" type="AudioStream" id=3]
 
 [sub_resource type="CapsuleShape2D" id=80]
-radius = 14.0
-height = 24.0
+radius = 12.0
+height = 22.0
 
 [sub_resource type="RectangleShape2D" id=81]
 extents = Vector2( 30, 25 )

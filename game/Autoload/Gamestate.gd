@@ -49,6 +49,7 @@ func is_dialog_open() -> bool:
 
 func set_awake(is_awake: bool) -> void:
 	_awake = is_awake
+	run_enabled = !_awake  # If you are awake you can't run if you are asleep you can run
 
 
 func is_awake() -> bool:

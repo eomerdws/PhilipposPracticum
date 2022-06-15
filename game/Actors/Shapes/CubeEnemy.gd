@@ -80,12 +80,28 @@ func _physics_process(delta: float) -> void:
 
 	#TODO: Based on _velocity x and y values set the animation in that direction OR NOTE that it may be needed on
 	# angular_velocity I am not totally sure
+
+	_animate(_velocity)
 	_velocity = move_and_slide(_velocity)
 
 
 func die() -> void:
 	$AnimatedSprite.play("die")
 	$AnimatedSprite.connect("animation_finished", self, "queue_free")
+
+
+func _animate(dir: Vector2) -> void:
+	if has_grown:
+		if dir.x < 0:
+			$AnimatedSprite.flip_h = false
+			$AnimatedSprite.play("jump")
+		if dir.x > 0:
+			$AnimatedSprite.flip_h = true
+			$AnimatedSprite.play("jump")
+		if dir.y < 0 and dir.x == 0:
+			$AnimatedSprite.play("jump_up")
+		if dir.y > 0 and dir.x == 0:
+			$AnimatedSprite.play("jump_down")
 
 
 func grow() -> void:

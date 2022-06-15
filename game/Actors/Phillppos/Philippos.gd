@@ -10,7 +10,10 @@ var animated_sprites_to_load: Dictionary = {
 	"asleep": load("res://Actors/Phillppos/Asleep.tres")
 }
 
+var _attacking: bool = false
+
 var animated_sprites: Dictionary
+var animation_called_externally: bool = false
 var _sleep: bool = false
 var _die: bool = false
 var _velocity: Vector2 = Vector2.ZERO
@@ -20,11 +23,13 @@ var current_status: String
 
 onready var agent := GSAISteeringAgent.new()
 
+
 func _ready() -> void:
 	_set_current_status()
 	#print(self.get_owner().name)
 	$AnimatedSprite.frames = animated_sprites_to_load[current_status]
 	update_agent()
+
 
 func _get_input() -> Vector2:
 	var input = Vector2.ZERO
@@ -36,21 +41,41 @@ func _get_input() -> Vector2:
 		input.y -=1
 	if Input.is_action_pressed("down"):
 		input.y += 1
+
+	if Input.is_action_pressed("attack"):
+		_attacking = true
+	else:
+		_attacking = false
 	return input
 
 
 func _walk_animation(input: Vector2) -> void:
 	if input.x < 0:
-		$AnimatedSprite.play("walk_left")
+		if !_attacking:
+			$AnimatedSprite.play("walk_left")
+		else:
+			$AnimatedSprite.play("attack_left")
 	if input.x > 0:
-		$AnimatedSprite.play("walk_right")
+		if !_attacking:
+			$AnimatedSprite.play("walk_right")
+		else:
+			$AnimatedSprite.play("attack_right")
 
 	if input.y < 0 and input.x == 0:
-		$AnimatedSprite.play("walk_up")
+		if !_attacking:
+			$AnimatedSprite.play("walk_up")
+		else:
+			$AnimatedSprite.play("attack_up")
 	if input.y > 0 and input.x == 0:
-		$AnimatedSprite.play("walk_down")
+		if !_attacking:
+			$AnimatedSprite.play("walk_down")
+		else:
+			$AnimatedSprite.play("attack_down")
 
-	if !_sleep:
+	if _attacking and !_sleep and input.x == 0 and input.y == 0:
+		$AnimatedSprite.play("attack_down")
+
+	if !_sleep and !_attacking:
 		if !Gamestate.is_dialog_open() and input == Vector2.ZERO:
 			clear_animation()
 
@@ -60,14 +85,11 @@ func _physics_process(delta: float) -> void:
 	update_agent()
 
 	var dir: Vector2 =_get_input()
-	_walk_animation(dir)
-	# TODO: Add animation back in for walking
-	# TODO: Figure out how to setup the attack system. Remember he can move in 4 different directions to attack
-	# So you have to figure out the direction of the character && the spear + the attack button pressed
-	# + not mess up the normal movement
+	if !animation_called_externally:
+		_walk_animation(dir)
+		if _attacking:
+			dir = Vector2.ZERO  # Stop moving AFTER the direction of attack is animated ;)
 
-	if Input.is_action_pressed("attack"):
-		$AnimatedSprite.play("attack_left")
 
 	if dir == Vector2.ZERO:
 		if $Footsteps.is_playing():
@@ -106,13 +128,14 @@ func clear_animation() -> void:
 
 func play_animation(animation: String) -> void:
 	# clear previous animations
+	animation_called_externally = true
 	clear_animation()
 	print("Philippos is supposed to " + animation)
 	if animation in $AnimatedSprite.animation:
-		if animation == "die" and Gamestate.awake:
+		if animation == "die" and awake:
 			_sleep = true
 		else:
-			_die == true
+			_die = true
 			
 		print("Starting animation!")
 		if $AnimatedSprite.is_playing():
