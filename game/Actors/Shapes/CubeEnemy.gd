@@ -1,17 +1,19 @@
 extends NPC
 
-var _grown: bool = false
+var has_grown: bool = false
+var chase_timer_has_started: bool = false
 onready var flee_blend := GSAIBlend.new(agent)
 onready var pursue_blend := GSAIBlend.new(agent)
 onready var priority := GSAIPriority.new(agent)
 
 
 func _ready() -> void:
+	change_type("enemy")
 	agent.linear_speed_max = speed_max
 	agent.linear_acceleration_max = accel_max
 	agent.angular_speed_max = deg2rad(angular_speed_max)
 	agent.angular_acceleration_max = deg2rad(angular_accel_max)
-	agent.bounding_radius = calculate_radius($Hitbox.polygon)
+	agent.bounding_radius = calculate_radius($Hurtbox.polygon)
 	update_agent()
 
 	var pursue := GSAIPursue.new(agent, philippos_agent)
@@ -40,32 +42,38 @@ func _ready() -> void:
 
 
 func _on_Detection_body_entered(body: Node) -> void:
-	if body.name == "Philippos":
+	if body.name == "Philippos" or body.name == "Cyndi":
+		if chase_timer_has_started:
+			$ChaseTimer.stop()
+			chase_timer_has_started = false
 		grow()
 
 
 func _on_Detection_body_exited(body: Node) -> void:
 	$ChaseTimer.start()
+	chase_timer_has_started = true
 
 
 func _on_ChaseTimer_timeout() -> void:
-	pass
-
+	$AnimatedSprite.play("shrink")
+	has_grown = false
+	pursue_blend.is_enabled = false
 
 func _on_GrowTimer_timeout() -> void:
 	#NOTE: This is intended to give the grow animation time to complete before moving toward the player
-	pass
+	has_grown = true
 
 
 func _physics_process(delta: float) -> void:
 	update_agent()
 
-	if _grown:
+	if has_grown:
 		pursue_blend.is_enabled = true
+
 
 	priority.calculate_steering(acceleration)
 
-	_velocity = (_velocity * Vector2(acceleration.linear.x, acceleration.linear.y) * delta).clamped(
+	_velocity = (_velocity + Vector2(acceleration.linear.x, acceleration.linear.y) * delta).clamped(
 		agent.linear_speed_max)
 	_velocity = _velocity.linear_interpolate(Vector2.ZERO, linear_drag)
 	# print(self.name + " velocity: " + str(_velocity))  # NOTE: That this will be n*60 every second; with n being the number of cubes on the map
@@ -81,7 +89,7 @@ func die() -> void:
 
 
 func grow() -> void:
-	if !_grown:
+	if !has_grown:
 		$AnimatedSprite.play("grow")
 		$GrowTimer.start()
-		_grown = true
+

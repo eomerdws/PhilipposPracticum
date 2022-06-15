@@ -86,7 +86,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		_velocity = lerp(_velocity, Vector2.ZERO, 0.9)
 	_velocity = move_and_slide(_velocity)
-	print(_velocity)
 
 
 func _set_current_status() -> void:
@@ -129,3 +128,11 @@ func update_agent() -> void:
 	agent.linear_velocity.y = _velocity.y
 	agent.angular_velocity = _angular_velocity
 	agent.orientation = rotation
+
+
+func _on_Hurtbox_body_entered(body: Node) -> void:
+	pass # Replace with function body.
+
+
+func _on_Hurtbox_body_exited(body: Node) -> void:
+	pass # Replace with function body.
