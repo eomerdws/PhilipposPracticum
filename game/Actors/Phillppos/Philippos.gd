@@ -3,6 +3,7 @@ extends KinematicBody2D
 export(int) var _walk_speed: int = 100
 export(float) var _run_speed: float = 1.5
 export(bool) var awake: bool
+export(float) var acceleration: float = 0.1
 
 var animated_sprites_to_load: Dictionary = {
 	"awake": load("res://Actors/Phillppos/Awake.tres"),
@@ -13,6 +14,7 @@ var animated_sprites: Dictionary
 var _sleep: bool = false
 var _die: bool = false
 var _velocity: Vector2 = Vector2.ZERO
+var _accel: Vector2 = Vector2.ZERO
 var _angular_velocity: float = 0.0
 var current_status: String
 
@@ -24,37 +26,50 @@ func _ready() -> void:
 	$AnimatedSprite.frames = animated_sprites_to_load[current_status]
 	update_agent()
 
-func _physics_process(delta: float) -> void:
-	_velocity = Vector2.ZERO
-
+func _get_input() -> Vector2:
+	var input = Vector2.ZERO
 	if Input.is_action_pressed("left"):
-		_velocity.x -= 1
-		$AnimatedSprite.play("walk_left")
+		input.x -= 1
 	if Input.is_action_pressed("right"):
-		_velocity.x += 1
-		$AnimatedSprite.play("walk_right")
+		input.x += 1
 	if Input.is_action_pressed("up"):
-		_velocity.y -= 1
-		if not (Input.is_action_pressed("left") or Input.is_action_pressed("right")):
-			$AnimatedSprite.play("walk_up")
+		input.y -=1
 	if Input.is_action_pressed("down"):
-		_velocity.y += 1
-		if not (Input.is_action_pressed("left") or Input.is_action_pressed("right")):
-			$AnimatedSprite.play("walk_down")
+		input.y += 1
+	return input
 
+
+func _walk_animation(input: Vector2) -> void:
+	if input.x < 0:
+		$AnimatedSprite.play("walk_left")
+	if input.x > 0:
+		$AnimatedSprite.play("walk_right")
+
+	if input.y < 0 and input.x == 0:
+		$AnimatedSprite.play("walk_up")
+	if input.y > 0 and input.x == 0:
+		$AnimatedSprite.play("walk_down")
+
+	if !_sleep:
+		if !Gamestate.is_dialog_open() and input == Vector2.ZERO:
+			clear_animation()
+
+
+
+func _physics_process(delta: float) -> void:
+	update_agent()
+
+	var dir: Vector2 =_get_input()
+	_walk_animation(dir)
+	# TODO: Add animation back in for walking
 	# TODO: Figure out how to setup the attack system. Remember he can move in 4 different directions to attack
 	# So you have to figure out the direction of the character && the spear + the attack button pressed
 	# + not mess up the normal movement
 
 	if Input.is_action_pressed("attack"):
 		$AnimatedSprite.play("attack_left")
-		_velocity.x += 1
 
-	if !_sleep:
-		if !Gamestate.is_dialog_open() and _velocity == Vector2.ZERO:
-			clear_animation()
-
-	if _velocity == Vector2.ZERO:
+	if dir == Vector2.ZERO:
 		if $Footsteps.is_playing():
 			$Footsteps.stop()
 	else:
@@ -65,8 +80,13 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_pressed("run_modifier") and Gamestate.run_enabled:
 		speed = _walk_speed * _run_speed
-	update_agent()
-	move_and_slide(_velocity.normalized() * speed)
+
+	if dir.length() > 0:
+		_velocity = lerp(_velocity, dir.normalized() * speed, acceleration)
+	else:
+		_velocity = lerp(_velocity, Vector2.ZERO, 0.9)
+	_velocity = move_and_slide(_velocity)
+	print(_velocity)
 
 
 func _set_current_status() -> void:
