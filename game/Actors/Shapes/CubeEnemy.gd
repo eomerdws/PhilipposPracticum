@@ -1,6 +1,6 @@
 extends NPC
 
-var has_grown: bool = false
+var _grown: bool = false
 onready var flee_blend := GSAIBlend.new(agent)
 onready var pursue_blend := GSAIBlend.new(agent)
 onready var priority := GSAIPriority.new(agent)
@@ -30,6 +30,7 @@ func _ready() -> void:
 	flee_blend.add(look, 1)
 	flee_blend.add(flee, 1)
 
+	pursue_blend.is_enabled = false
 	pursue_blend.add(face, 1)
 	pursue_blend.add(pursue, 1)
 
@@ -57,7 +58,21 @@ func _on_GrowTimer_timeout() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	pass
+	update_agent()
+
+	if _grown:
+		pursue_blend.is_enabled = true
+
+	priority.calculate_steering(acceleration)
+
+	_velocity = (_velocity * Vector2(acceleration.linear.x, acceleration.linear.y) * delta).clamped(
+		agent.linear_speed_max)
+	_velocity = _velocity.linear_interpolate(Vector2.ZERO, linear_drag)
+	# print(self.name + " velocity: " + str(_velocity))  # NOTE: That this will be n*60 every second; with n being the number of cubes on the map
+
+	#TODO: Based on _velocity x and y values set the animation in that direction OR NOTE that it may be needed on
+	# angular_velocity I am not totally sure
+	_velocity = move_and_slide(_velocity)
 
 
 func die() -> void:
@@ -66,7 +81,7 @@ func die() -> void:
 
 
 func grow() -> void:
-	if !has_grown:
+	if !_grown:
 		$AnimatedSprite.play("grow")
 		$GrowTimer.start()
-		has_grown = true
+		_grown = true

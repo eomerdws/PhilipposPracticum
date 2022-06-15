@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/both/floors.tres" type="TileSet" id=1]
 [ext_resource path="res://Actors/Phillppos/Philippos.tscn" type="PackedScene" id=2]
@@ -8,8 +8,6 @@
 [ext_resource path="res://assets/awake/furniture.tres" type="TileSet" id=6]
 [ext_resource path="res://assets/both/terrain.tres" type="TileSet" id=7]
 [ext_resource path="res://Levels/Library/Library.gd" type="Script" id=8]
-[ext_resource path="res://Actors/Shapes/Cyndi.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Actors/Shapes/CubeEnemy.tscn" type="PackedScene" id=10]
 
 [node name="Library" type="Node2D"]
 script = ExtResource( 8 )
@@ -76,9 +74,3 @@ position = Vector2( 57, 255 )
 position = Vector2( 964, 300 )
 
 [node name="Dialog" type="CanvasLayer" parent="." groups=["DialogLayer"]]
-
-[node name="Cyndi" parent="." instance=ExtResource( 9 )]
-position = Vector2( 132, 264 )
-
-[node name="CubeEnemy" parent="." instance=ExtResource( 10 )]
-position = Vector2( 268, 196 )

@@ -1,6 +1,5 @@
 extends KinematicBody2D
 
-
 export(int) var _walk_speed: int = 100
 export(float) var _run_speed: float = 1.5
 export(bool) var awake: bool
@@ -23,7 +22,7 @@ func _ready() -> void:
 	_set_current_status()
 	#print(self.get_owner().name)
 	$AnimatedSprite.frames = animated_sprites_to_load[current_status]
-
+	update_agent()
 
 func _physics_process(delta: float) -> void:
 	_velocity = Vector2.ZERO
@@ -66,7 +65,7 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_pressed("run_modifier") and Gamestate.run_enabled:
 		speed = _walk_speed * _run_speed
-
+	update_agent()
 	move_and_slide(_velocity.normalized() * speed)
 
 
@@ -103,6 +102,7 @@ func play_animation(animation: String) -> void:
 
 
 func update_agent() -> void:
+	# A function used from the godot-steering-ai-framework
 	agent.position.x = global_position.x
 	agent.position.y = global_position.y
 	agent.linear_velocity.x = _velocity.x

@@ -1,6 +1,9 @@
 extends KinematicBody2D
 class_name NPC
 
+# NOTE: In order for this to work Philippos has to be loaded in the tree before any NPCs that inherit this class.
+# Otherwise the philippos_agent has not had time to load and will be a null instance here.
+
 export(int) var hitpoints: int = 100
 export(int) var hitpoints_flee_treshold: int = 10
 export(int) var proximity_radius: int = 100
