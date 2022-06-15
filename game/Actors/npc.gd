@@ -24,9 +24,21 @@ onready var proximity := GSAIRadiusProximity.new(agent, [philippos_agent], proxi
 
 
 func update_agent() -> void:
+	# From godot-steering-ai-framework getting started
 	agent.position.x = global_position.x
 	agent.position.y = global_position.y
 	agent.orientation = rotation
 	agent.linear_velocity.x = _velocity.x
-	agent.lineary_velocity.y = _velocity.y
+	agent.linear_velocity.y = _velocity.y
 	agent.angular_velocity = angular_velocity
+
+
+func calculate_radius(polygon: PoolVector2Array) -> float:
+	# From godot-steering-ai-framework getting started
+	var furthest_point: Vector2 = Vector2(-INF, -INF)
+	for p in polygon:
+		if abs(p.x) > furthest_point.x:
+			furthest_point.x = p.x
+		if abs(p.y) > furthest_point.y:
+			furthest_point.y = p.y
+	return furthest_point.length()

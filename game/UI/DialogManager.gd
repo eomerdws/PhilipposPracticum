@@ -19,8 +19,9 @@ func add_text() -> void:
 
 
 func add_portrait() -> void:
+	$CharacterPortrait.visible = false
 	if _dialog[_current_dialog].texture:
-		$CharacterPortrait.texture = load("res://assets/actors/portraits/" + _dialog[_current_dialog].texture)
+		$CharacterPortrait.set_texture(load("res://assets/actors/portraits/" + _dialog[_current_dialog].texture))
 		$CharacterPortrait.visible = true
 	else:
 		$CharacterPortrait.visible = false
