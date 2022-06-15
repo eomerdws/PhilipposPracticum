@@ -6,10 +6,10 @@ class_name NPC
 
 export(int) var hitpoints: int = 100
 export(int) var hitpoints_flee_treshold: int = 10
-export(int) var proximity_radius: int = 100
+export(int) var proximity_radius: int = 0
 
-export(float) var speed_max: float = 450.0
-export(float) var accel_max: float = 50.0
+export(float) var speed_max: float = 2000.0
+export(float) var accel_max: float = 500.0
 export (float) var angular_speed_max: float = 240
 export(float) var angular_accel_max: float = 40
 
@@ -17,6 +17,9 @@ var _velocity: Vector2 = Vector2.ZERO
 var angular_velocity: float = 0.0
 var linear_drag: float = 0.1
 var angular_drag: float = 0.1
+
+enum NPC_TYPE {friend, enemy, neutral}
+var npc_type = NPC_TYPE.neutral
 
 # Godot Steering Variables
 var acceleration := GSAITargetAcceleration.new()
@@ -45,3 +48,15 @@ func calculate_radius(polygon: PoolVector2Array) -> float:
 		if abs(p.y) > furthest_point.y:
 			furthest_point.y = p.y
 	return furthest_point.length()
+
+
+func change_type(type: String) -> void:
+	match type.to_lower():
+		"friend":
+			npc_type = NPC_TYPE.friend
+		"enemy":
+			npc_type = NPC_TYPE.enemy
+		"neutral":
+			npc_type = NPC_TYPE.neutral
+		_:
+			npc_type = NPC_TYPE.neutral

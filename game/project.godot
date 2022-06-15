@@ -157,7 +157,7 @@ _global_script_classes=[ {
 "base": "KinematicBody2D",
 "class": "NPC",
 "language": "GDScript",
-"path": "res://Actors/npc.gd"
+"path": "res://Actors/NPC.gd"
 } ]
 _global_script_class_icons={
 "GSAIAgentLocation": "",
