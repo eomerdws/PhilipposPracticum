@@ -1,5 +1,7 @@
 extends NPC
 
+var found: bool = false
+
 func _ready() -> void:
 	idle()
 
@@ -28,4 +30,10 @@ func being_attacked(damage: int) -> void:
 
 
 func _on_DetectPhilippos_body_entered(body: Node) -> void:
-	pass
+	if !found:
+		# TODO: Begin dialog section
+		# TODO: setup follow steering behavior
+
+		# NOTE: These need to be set once the dialog is finished
+		found = true
+		Gamestate.set_found_cyndi(true)

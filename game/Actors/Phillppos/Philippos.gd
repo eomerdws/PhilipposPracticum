@@ -141,7 +141,7 @@ func play_animation(animation: String) -> void:
 		clear_animation()
 		print("Philippos is supposed to " + animation)
 		if animation in $AnimatedSprite.get_sprite_frames().get_animation_names():
-			if animation == "die" and awake:
+			if animation == "sleep" and awake:
 				_sleep = true
 
 			print("Starting animation!")

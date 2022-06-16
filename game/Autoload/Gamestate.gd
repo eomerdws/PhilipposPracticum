@@ -23,6 +23,10 @@ func open_dialog(dialog_fname: String) -> void:
 		# Open the dialog with selected text
 		opened_dialog = _dialog_scene.instance()
 		opened_dialog.add_dialog(d_json.dialog)
+		if d_json.has("end_events"):
+			opened_dialog.add_end_events(d_json.end_events)
+		else:
+			print("this dialog does not have end events")
 		var dialog_layer: CanvasLayer = get_tree().get_nodes_in_group("DialogLayer")[0]
 		dialog_layer.add_child(opened_dialog)
 	else:

@@ -53,8 +53,13 @@
             "character": "Philippos",
             "texture": "Philippos_large_awake_thinking.png",
             "text": "Oh man. He can really drone on and on, and he is only just getting started. Why couldn't my father have let me be in army instead?!?",
-            "animation": "die",
-            "trigger": "transition_to_sleep"
+            "animation": "",
+            "trigger": ""
         }
+    ],
+
+    "end_events": [
+        {"event": {"character": "Philippos", "animation": "sleep"}, "type": "animation"},
+        {"event": {"signal": "transition_to_sleep"}, "type": "signal"}
     ]
 }

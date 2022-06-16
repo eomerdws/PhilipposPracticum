@@ -1,7 +1,9 @@
 extends Control
 
 var _dialog: Array
+var _end_events: Array
 var _current_dialog: int = 0
+var _completed: bool = false
 
 """
 _dialog is expected to be an array of JSON objects that appear as:
@@ -12,6 +14,10 @@ _dialog is expected to be an array of JSON objects that appear as:
 	"trigger": String    -> Name of a signal to be called, which should be stored in Events
 }
 """
+
+
+func _ready() -> void:
+	print(has_end_events())
 
 
 func add_text() -> void:
@@ -41,7 +47,17 @@ func add_dialog(json: Array) -> void:
 	run_dialog()
 
 
+func add_end_events(json: Array) -> void:
+	_end_events = json
+
+
+func has_end_events() -> bool:
+	return _end_events.size() > 0
+
+
 func close_dialog() -> void:
+	_completed = true
+	Events.emit_signal("dialog_completed")
 	hide()
 	#NOTE: Let the Gamestate close the dialog to ensure other processes are completed
 	Gamestate.close_dialog()
@@ -54,6 +70,17 @@ func run_dialog() -> void:
 	check_play_animation()
 
 
+func _run_end_events() -> void:
+	if has_end_events():
+		for e in _end_events:
+			match e.type:
+				"signal":
+					Events.emit_signal(e.event.signal)
+				"animation":
+					Events.emit_signal("dialog_calls_animation_play", e.event.character, e.event.animation)
+
+	close_dialog()
+
 func _next() -> void:
 	_current_dialog += 1
 	if _current_dialog < _dialog.size():
@@ -61,9 +88,10 @@ func _next() -> void:
 		add_portrait()
 		check_play_animation()
 	else:
-		close_dialog()
+		_run_end_events()  # NOTE: if the dialog has events run them such as ending animations or transitions
+
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("use"):
+	if !_completed and Input.is_action_just_pressed("use"):
 		_next()

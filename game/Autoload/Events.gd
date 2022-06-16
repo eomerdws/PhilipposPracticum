@@ -16,3 +16,8 @@ signal philippos_died
 signal found_cyndi
 signal cyndi_health_changed(health)
 signal cyndi_died
+
+
+# Dialog
+signal dialog_completed
+signal dialog_trigger_end
