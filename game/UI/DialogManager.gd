@@ -16,9 +16,6 @@ _dialog is expected to be an array of JSON objects that appear as:
 """
 
 
-func _ready() -> void:
-	print(has_end_events())
-
 
 func add_text() -> void:
 	$DilaogWindow/DialogBackground/Dialog.text = _dialog[_current_dialog].text
@@ -29,8 +26,13 @@ func add_portrait() -> void:
 	if _dialog[_current_dialog].texture:
 		$CharacterPortrait.set_texture(load("res://assets/actors/portraits/" + _dialog[_current_dialog].texture))
 		$CharacterPortrait.visible = true
-	else:
-		$CharacterPortrait.visible = false
+
+
+func add_name() -> void:
+	$CharacterName.visible = false
+	if _dialog[_current_dialog].character:
+		$CharacterName.set_text(_dialog[_current_dialog].character)
+		$CharacterName.visible = true
 
 
 func check_play_animation() -> void:
@@ -67,6 +69,7 @@ func run_dialog() -> void:
 	_current_dialog = 0
 	add_text()
 	add_portrait()
+	add_name()
 	check_play_animation()
 
 
@@ -86,6 +89,7 @@ func _next() -> void:
 	if _current_dialog < _dialog.size():
 		add_text()
 		add_portrait()
+		add_name()
 		check_play_animation()
 	else:
 		if has_end_events():

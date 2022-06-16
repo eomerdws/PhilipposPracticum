@@ -4,7 +4,7 @@ export(int) var _walk_speed: int = 100
 export(float) var _run_speed: float = 1.5
 export(bool) var awake: bool
 export(float) var acceleration: float = 0.1
-export(int) var health: int = 10 #100
+export(int) var health: int = 100
 
 
 var animated_sprites_to_load: Dictionary = {
@@ -53,12 +53,13 @@ func _get_input() -> Vector2:
 	return input
 
 
-func _walk_animation(input: Vector2) -> void:
+func _walk_animation(input: Vector2, delta: float) -> void:
 	if input.x < 0:
 		if !_attacking:
 			$AnimatedSprite.play("walk_left")
 		else:
 			$AnimatedSprite.play("attack_left")
+
 	if input.x > 0:
 		if !_attacking:
 			$AnimatedSprite.play("walk_right")
@@ -70,6 +71,7 @@ func _walk_animation(input: Vector2) -> void:
 			$AnimatedSprite.play("walk_up")
 		else:
 			$AnimatedSprite.play("attack_up")
+
 	if input.y > 0 and input.x == 0:
 		if !_attacking:
 			$AnimatedSprite.play("walk_down")
@@ -78,6 +80,8 @@ func _walk_animation(input: Vector2) -> void:
 
 	if _attacking and !_sleep and input.x == 0 and input.y == 0:
 		$AnimatedSprite.play("attack_down")
+
+	$Attack.rotation = input.angle()
 
 	if !_sleep and !_attacking and !_die:
 		if !Gamestate.is_dialog_open() and input == Vector2.ZERO:
@@ -93,7 +97,7 @@ func _physics_process(delta: float) -> void:
 		dir = _get_input()
 
 	if !animation_called_externally:
-		_walk_animation(dir)
+		_walk_animation(dir, delta)
 		if _attacking:
 			dir = Vector2.ZERO  # Stop moving AFTER the direction of attack is animated ;)
 

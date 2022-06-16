@@ -5,6 +5,8 @@ var chase_timer_has_started: bool = false
 onready var flee_blend := GSAIBlend.new(agent)
 onready var pursue_blend := GSAIBlend.new(agent)
 onready var priority := GSAIPriority.new(agent)
+onready var cyndi: Node = get_tree().get_nodes_in_group("Cyndi")[0]
+onready var cyndi_agent: GSAISteeringAgent = cyndi.agent
 
 
 func _ready() -> void:
@@ -19,6 +21,9 @@ func _ready() -> void:
 
 	var pursue := GSAIPursue.new(agent, philippos_agent)
 	pursue.predict_time_max = 1.5
+
+	var pursue_cyndi := GSAIPursue.new(agent, cyndi_agent)
+	pursue_cyndi.predict_time_max = 1.5
 
 	var flee := GSAIFlee.new(agent, philippos_agent)
 	var avoid := GSAIAvoidCollisions.new(agent, proximity)
@@ -36,10 +41,12 @@ func _ready() -> void:
 	pursue_blend.is_enabled = false
 	pursue_blend.add(face, 1)
 	pursue_blend.add(pursue, 1)
+	pursue_blend.add(pursue_cyndi, 1)
 
 	priority.add(avoid)
 	priority.add(flee_blend)
 	priority.add(pursue_blend)
+
 
 
 func _on_Detection_body_entered(body: Node) -> void:

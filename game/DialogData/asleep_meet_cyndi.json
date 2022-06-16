@@ -1,0 +1,29 @@
+{
+    "dialog": [
+        {
+            "character": "Cyndi",
+            "texture": "Cyndi_large_asleep.png",
+            "text": "Help! Help! Cublins are attacking me! Help!",
+            "animation": "",
+            "trigger": ""
+        },
+        {
+            "character": "Philippos",
+            "texture": "Philippos_large_asleep.png",
+            "text": "What's a cublin??",
+            "animation": "",
+            "trigger": ""
+        },
+        {
+            "character": "Cyndi",
+            "texture": "Cyndi_large_asleep.png",
+            "text": "HELP!",
+            "animation": "",
+            "trigger": ""
+        }
+    ],
+
+    "end_events": [
+        {"event": {"trigger": "closest_cublins_attack_cyndi"}, "type": "trigger"}
+    ]
+}
