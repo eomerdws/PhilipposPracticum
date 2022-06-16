@@ -59,7 +59,6 @@
     ],
 
     "end_events": [
-        {"event": {"character": "Philippos", "animation": "sleep"}, "type": "animation"},
-        {"event": {"signal": "transition_to_sleep"}, "type": "signal"}
+        {"event": {"trigger": "transition_to_sleep"}, "type": "trigger"}
     ]
 }

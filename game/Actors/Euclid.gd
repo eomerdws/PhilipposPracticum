@@ -5,6 +5,7 @@ func _ready() -> void:
 
 
 func _on_PlayerDetection_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
+	print(area.name + " entered Euclid's space")
 	Gamestate.open_dialog("awake_open_euclid.json")
 
 

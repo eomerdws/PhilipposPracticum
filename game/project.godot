@@ -202,6 +202,7 @@ config/icon="res://icon.png"
 
 Events="*res://Autoload/Events.gd"
 Gamestate="*res://Autoload/Gamestate.gd"
+SleepTransition="*res://Transitions/SleepTransition.tscn"
 
 [importer_defaults]
 
@@ -290,6 +291,8 @@ die={
 [logging]
 
 file_logging/enable_file_logging=true
+file_logging/log_path="user://logs/PhilipposPracticum.log"
+file_logging/max_log_files=15
 
 [physics]
 

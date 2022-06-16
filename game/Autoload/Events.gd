@@ -4,7 +4,7 @@ extends Node
 
 signal transition_to_sleep
 signal transition_awake
-
+signal transition_halfway(name)
 
 # Philippos related signals
 signal dialog_calls_animation_play(character, animation)

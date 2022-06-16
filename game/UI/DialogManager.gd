@@ -71,13 +71,13 @@ func run_dialog() -> void:
 
 
 func _run_end_events() -> void:
-	if has_end_events():
-		for e in _end_events:
-			match e.type:
-				"signal":
-					Events.emit_signal(e.event.signal)
-				"animation":
-					Events.emit_signal("dialog_calls_animation_play", e.event.character, e.event.animation)
+	for e in _end_events:
+		match e.type:
+			"trigger":
+				print("Sending end event signal: " + e.event.trigger)
+				Events.emit_signal(e.event.trigger)
+			"animation":
+				Events.emit_signal("dialog_calls_animation_play", e.event.character, e.event.animation)
 
 	close_dialog()
 
@@ -88,8 +88,10 @@ func _next() -> void:
 		add_portrait()
 		check_play_animation()
 	else:
-		_run_end_events()  # NOTE: if the dialog has events run them such as ending animations or transitions
-
+		if has_end_events():
+			_run_end_events()  # NOTE: if the dialog has events run them such as ending animations or transitions
+		else:
+			close_dialog()
 
 
 func _unhandled_input(event: InputEvent) -> void:
