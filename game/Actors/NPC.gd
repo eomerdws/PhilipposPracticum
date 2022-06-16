@@ -27,7 +27,9 @@ var acceleration := GSAITargetAcceleration.new()
 onready var agent := GSAISteeringAgent.new()
 onready var philippos: Node = get_tree().get_nodes_in_group("Philippos")[0]
 onready var philippos_agent: GSAISteeringAgent = philippos.agent
+var philippos_dead: bool = false
 onready var proximity := GSAIRadiusProximity.new(agent, [philippos_agent], proximity_radius)
+
 
 
 func update_agent() -> void:

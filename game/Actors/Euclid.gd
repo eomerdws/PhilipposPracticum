@@ -13,7 +13,7 @@ func _on_PlayerDetection_area_shape_exited(area_rid: RID, area: Area2D, area_sha
 
 
 func play_animation(animation: String) -> void:
-	if animation in $AnimatedSprite.animation:
+	if animation in $AnimatedSprite.get_sprite_frames().get_animation_names():
 		if $AnimatedSprite.is_playing():
 			$AnimatedSprite.stop()
 		$AnimatedSprite.play(animation)

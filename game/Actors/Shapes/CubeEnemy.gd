@@ -9,6 +9,7 @@ onready var priority := GSAIPriority.new(agent)
 
 func _ready() -> void:
 	change_type("enemy")
+	Events.connect("philippos_died", self, "_on_philippos_dead")
 	agent.linear_speed_max = speed_max
 	agent.linear_acceleration_max = accel_max
 	agent.angular_speed_max = deg2rad(angular_speed_max)
@@ -55,9 +56,8 @@ func _on_Detection_body_exited(body: Node) -> void:
 
 
 func _on_ChaseTimer_timeout() -> void:
-	$AnimatedSprite.play("shrink")
-	has_grown = false
-	pursue_blend.is_enabled = false
+	shrink()
+
 
 func _on_GrowTimer_timeout() -> void:
 	#NOTE: This is intended to give the grow animation time to complete before moving toward the player
@@ -114,6 +114,12 @@ func grow() -> void:
 		$GrowTimer.start()
 
 
+func shrink() -> void:
+	if has_grown:
+		$AnimatedSprite.play("shrink")
+		has_grown = false
+		pursue_blend.is_enabled = false
+
 
 func _on_Hitbox_body_entered(body: Node) -> void:
 	if body.name == "Philippos":
@@ -124,3 +130,11 @@ func _on_Hitbox_body_entered(body: Node) -> void:
 func _on_Hitbox_body_exited(body: Node) -> void:
 	if !$HurtPhilipposTimer.is_stopped():
 		$HurtPhilipposTimer.stop()
+
+
+func _on_philippos_dead() -> void:
+	$Hitbox.disconnect("body_entered", self, "_on_Hitbox_body_entered")
+	$Hitbox.disconnect("body_exited", self, "_on_Hitbox_body_exited")
+	$Detection.disconnect("body_entered", self, "_on_Detection_body_entered")
+	$Detection.disconnect("body_exited", self, "_on_Detection_body_exited")
+	shrink()

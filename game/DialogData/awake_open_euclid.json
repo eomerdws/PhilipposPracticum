@@ -32,7 +32,7 @@
             "character": "Euclid",
             "texture": "Euclid_large_awake.png",
             "text": "Shall we begin? The laws of nature are but the mathematical thoughts of God.",
-            "animation": "talking 2",
+            "animation": "talking",
             "trigger": ""
         },
         {
@@ -46,7 +46,7 @@
             "character": "Euclid",
             "texture": "Euclid_large_awake.png",
             "text": "There is no Royal Road to Geometry. Now pay attention. Proposition 1. Similar polygons inscribed....",
-            "animation": "talking4",
+            "animation": "talking2",
             "trigger": ""
         },
         {

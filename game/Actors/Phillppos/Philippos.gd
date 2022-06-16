@@ -87,7 +87,11 @@ func _walk_animation(input: Vector2) -> void:
 
 func _physics_process(delta: float) -> void:
 	update_agent()
-	var dir: Vector2 =_get_input()
+	var dir: Vector2 = Vector2.ZERO
+
+	if !_die and !_sleep:
+		dir = _get_input()
+
 	if !animation_called_externally:
 		_walk_animation(dir)
 		if _attacking:
