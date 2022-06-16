@@ -6,6 +6,7 @@ class_name NPC
 
 export(int) var hitpoints: int = 100
 export(int) var hitpoints_flee_treshold: int = 10
+export(int) var damage_dealt: int = 10
 export(int) var proximity_radius: int = 0
 
 export(float) var speed_max: float = 2000.0

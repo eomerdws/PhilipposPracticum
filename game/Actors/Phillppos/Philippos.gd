@@ -4,6 +4,8 @@ export(int) var _walk_speed: int = 100
 export(float) var _run_speed: float = 1.5
 export(bool) var awake: bool
 export(float) var acceleration: float = 0.1
+export(int) var health: int = 10 #100
+
 
 var animated_sprites_to_load: Dictionary = {
 	"awake": load("res://Actors/Phillppos/Awake.tres"),
@@ -28,6 +30,7 @@ func _ready() -> void:
 	_set_current_status()
 	#print(self.get_owner().name)
 	$AnimatedSprite.frames = animated_sprites_to_load[current_status]
+	Events.emit_signal("philippos_health_changed", health)
 	update_agent()
 
 
@@ -46,6 +49,7 @@ func _get_input() -> Vector2:
 		_attacking = true
 	else:
 		_attacking = false
+
 	return input
 
 
@@ -75,7 +79,7 @@ func _walk_animation(input: Vector2) -> void:
 	if _attacking and !_sleep and input.x == 0 and input.y == 0:
 		$AnimatedSprite.play("attack_down")
 
-	if !_sleep and !_attacking:
+	if !_sleep and !_attacking and !_die:
 		if !Gamestate.is_dialog_open() and input == Vector2.ZERO:
 			clear_animation()
 
@@ -83,7 +87,6 @@ func _walk_animation(input: Vector2) -> void:
 
 func _physics_process(delta: float) -> void:
 	update_agent()
-
 	var dir: Vector2 =_get_input()
 	if !animation_called_externally:
 		_walk_animation(dir)
@@ -92,11 +95,11 @@ func _physics_process(delta: float) -> void:
 
 
 	if dir == Vector2.ZERO:
-		if $Footsteps.is_playing():
-			$Footsteps.stop()
+		if $Audio/Footsteps.is_playing():
+			$Audio/Footsteps.stop()
 	else:
-		if !$Footsteps.is_playing():
-			$Footsteps.play()
+		if !$Audio/Footsteps.is_playing():
+			$Audio/Footsteps.play()
 
 	var speed = _walk_speed
 
@@ -122,25 +125,27 @@ func _set_current_status() -> void:
 
 func clear_animation() -> void:
 	# Play idle (first frame faces the user) THEN stop
-	$AnimatedSprite.play("idle")
-	$AnimatedSprite.stop()
+	if !_die:
+		$AnimatedSprite.play("idle")
+		$AnimatedSprite.stop()
 
 
 func play_animation(animation: String) -> void:
 	# clear previous animations
-	animation_called_externally = true
-	clear_animation()
-	print("Philippos is supposed to " + animation)
-	if animation in $AnimatedSprite.animation:
-		if animation == "die" and awake:
-			_sleep = true
-		else:
-			_die = true
-			
-		print("Starting animation!")
-		if $AnimatedSprite.is_playing():
-			$AnimatedSprite.stop()
-		$AnimatedSprite.play(animation)
+	if !_die:
+		animation_called_externally = true
+		clear_animation()
+		print("Philippos is supposed to " + animation)
+		if animation in $AnimatedSprite.get_sprite_frames().get_animation_names():
+			if animation == "die" and awake:
+				_sleep = true
+
+			print("Starting animation!")
+			if $AnimatedSprite.is_playing():
+				$AnimatedSprite.stop()
+			$AnimatedSprite.play(animation)
+		#else: # NOTE: For debugging only as I don't want the output clogged
+		#	print("Animation %s is not in this set" %animation)
 
 
 func update_agent() -> void:
@@ -159,3 +164,23 @@ func _on_Hurtbox_body_entered(body: Node) -> void:
 
 func _on_Hurtbox_body_exited(body: Node) -> void:
 	pass # Replace with function body.
+
+
+func being_attacked(damage: int) -> void:
+	if !_die:
+		health -= damage
+
+		Events.emit_signal("philippos_health_changed", health)
+
+	if health <= 0:
+		die()
+
+
+func die() -> void:
+	if !_die:
+		$Audio/Death.play()
+		play_animation("die")
+		_die = true
+		Events.emit_signal("philippos_died")
+		# TODO: Determine if we restart the level or have a menu or what
+		print("Died and now need to start the main menu or the level over")

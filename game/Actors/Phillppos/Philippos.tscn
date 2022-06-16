@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Actors/Phillppos/Awake.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Actors/Phillppos/Philippos.gd" type="Script" id=2]
 [ext_resource path="res://assets/snd/490951__nox-sound__footsteps-concrete.ogg" type="AudioStream" id=3]
+[ext_resource path="res://assets/snd/PhilipposDiesSFX.ogg" type="AudioStream" id=4]
 
 [sub_resource type="CapsuleShape2D" id=80]
 radius = 12.0
@@ -43,9 +44,6 @@ collision_mask = 128
 position = Vector2( 20, 4 )
 shape = SubResource( 81 )
 
-[node name="Footsteps" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 3 )
-
 [node name="Attack" type="Area2D" parent="."]
 position = Vector2( 1, 7 )
 
@@ -60,6 +58,16 @@ shape = SubResource( 82 )
 [node name="CollisionPolygon2D" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2( 0, 4 )
 shape = SubResource( 83 )
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Footsteps" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 3 )
+
+[node name="Death" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 4 )
+
+[node name="FallAsleep" type="AudioStreamPlayer2D" parent="Audio"]
 
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]
 [connection signal="body_exited" from="Hurtbox" to="." method="_on_Hurtbox_body_exited"]

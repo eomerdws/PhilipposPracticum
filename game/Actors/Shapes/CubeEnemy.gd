@@ -13,7 +13,7 @@ func _ready() -> void:
 	agent.linear_acceleration_max = accel_max
 	agent.angular_speed_max = deg2rad(angular_speed_max)
 	agent.angular_acceleration_max = deg2rad(angular_accel_max)
-	agent.bounding_radius = calculate_radius($Hurtbox.polygon)
+	agent.bounding_radius = calculate_radius($Collision.polygon)
 	update_agent()
 
 	var pursue := GSAIPursue.new(agent, philippos_agent)
@@ -64,6 +64,10 @@ func _on_GrowTimer_timeout() -> void:
 	has_grown = true
 
 
+func _on_HurtPhilipposTimer_timeout() -> void:
+	philippos.being_attacked(damage_dealt)
+
+
 func _physics_process(delta: float) -> void:
 	update_agent()
 
@@ -109,3 +113,14 @@ func grow() -> void:
 		$AnimatedSprite.play("grow")
 		$GrowTimer.start()
 
+
+
+func _on_Hitbox_body_entered(body: Node) -> void:
+	if body.name == "Philippos":
+		body.being_attacked(damage_dealt)
+		$HurtPhilipposTimer.start()
+
+
+func _on_Hitbox_body_exited(body: Node) -> void:
+	if !$HurtPhilipposTimer.is_stopped():
+		$HurtPhilipposTimer.stop()
