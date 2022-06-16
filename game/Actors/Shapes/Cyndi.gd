@@ -7,6 +7,7 @@ func _ready() -> void:
 func die() -> void:
 	$AnimatedSprite.play("die")
 	yield($AnimatedSprite, "animation_finished")
+	Events.emit_signal("cyndi_died")
 	queue_free()
 
 
@@ -16,3 +17,15 @@ func idle() -> void:
 	$AnimatedSprite.play("idle")
 	yield($AnimatedSprite, "animation_finished")
 	print("Start godot-ai-steering behavior here!")
+
+
+
+func being_attacked(damage: int) -> void:
+	hitpoints -= damage
+	Events.emit_signal("cyndi_health_changed", hitpoints)
+	if hitpoints < 0:
+		die()
+
+
+func _on_DetectPhilippos_body_entered(body: Node) -> void:
+	pass

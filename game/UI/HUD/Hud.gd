@@ -3,9 +3,20 @@ extends Control
 
 
 func _ready() -> void:
-	Events.connect("philippos_health_changed", self, "change_health")
+	Events.connect("philippos_health_changed", self, "_on_philippos_health_changed")
+	Events.connect("found_cyndi", self, "_on_found_cyndi")
+	Events.connect("cyndi_health_changed", self, "_on_cyndi_health_changed")
 
 
-func change_health(health: int) -> void:
+func _on_philippos_health_changed(health: int) -> void:
 	print("health changed... " + str(health))
-	$CanvasLayer/Health.text = str(health)
+	$CanvasLayer/TopHBoxContainer/PhilipposHealth/ProgressBar.value = health
+
+
+func _on_cyndi_health_changed(health: int) -> void:
+	print("Cyndi's health has changed" + str(health))
+	$CanvasLayer/TopHBoxContainer/CyndiHealth/ProgressBar.value = health
+
+
+func _on_found_cyndi() -> void:
+	$CanvasLayer/TopHBoxContainer/CyndiHealth.show()

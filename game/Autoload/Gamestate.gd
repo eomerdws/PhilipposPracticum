@@ -1,6 +1,7 @@
 extends Node
 
 var _awake: bool = true
+var _found_cyndi: bool = false
 var starting: bool = true # TODO: Load this from user data
 var run_enabled: bool = false
 var _dialog_scene:PackedScene = preload("res://UI/DialogManager.tscn")
@@ -54,3 +55,11 @@ func set_awake(is_awake: bool) -> void:
 
 func is_awake() -> bool:
 	return _awake
+
+
+func set_found_cyndi(found: bool) -> void:
+	_found_cyndi = found
+
+
+func found_cyndi() -> bool:
+	return _found_cyndi
