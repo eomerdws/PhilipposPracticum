@@ -22,17 +22,17 @@ func add_text() -> void:
 
 
 func add_portrait() -> void:
-	$CharacterPortrait.visible = false
+	$DilaogWindow/CharacterPortrait.visible = false
 	if _dialog[_current_dialog].texture:
-		$CharacterPortrait.set_texture(load("res://assets/actors/portraits/" + _dialog[_current_dialog].texture))
-		$CharacterPortrait.visible = true
+		$DilaogWindow/CharacterPortrait.set_texture(load("res://assets/actors/portraits/" + _dialog[_current_dialog].texture))
+		$DilaogWindow/CharacterPortrait.visible = true
 
 
 func add_name() -> void:
-	$CharacterName.visible = false
+	$DilaogWindow/CharacterName.visible = false
 	if _dialog[_current_dialog].character:
-		$CharacterName.set_text(_dialog[_current_dialog].character)
-		$CharacterName.visible = true
+		$DilaogWindow/CharacterName.set_text(_dialog[_current_dialog].character)
+		$DilaogWindow/CharacterName.visible = true
 
 
 func check_play_animation() -> void:
