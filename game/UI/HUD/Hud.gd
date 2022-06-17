@@ -9,6 +9,7 @@ func _ready() -> void:
 	get_viewport().connect("size_changed", self, "_on_resize_window")
 	_on_resize_window()  # Setting it up by default
 
+
 func _on_philippos_health_changed(health: int) -> void:
 	print("health changed... " + str(health))
 	$CanvasLayer/TopHBoxContainer/PhilipposHealth/ProgressBar.value = health

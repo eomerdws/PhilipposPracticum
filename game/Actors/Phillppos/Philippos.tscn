@@ -47,6 +47,7 @@ shape = SubResource( 81 )
 
 [node name="Attack" type="Area2D" parent="."]
 position = Vector2( 1, 7 )
+rotation = 1.5708
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
 modulate = Color( 0.960784, 0.439216, 0.439216, 1 )
@@ -70,5 +71,11 @@ stream = ExtResource( 4 )
 
 [node name="FallAsleep" type="AudioStreamPlayer2D" parent="Audio"]
 
+[node name="IdleTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]
 [connection signal="body_exited" from="Hurtbox" to="." method="_on_Hurtbox_body_exited"]
+[connection signal="timeout" from="IdleTimer" to="." method="_on_IdleTimer_timeout"]
