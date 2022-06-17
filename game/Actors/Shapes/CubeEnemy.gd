@@ -76,66 +76,76 @@ func _on_HurtPhilipposTimer_timeout() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	update_agent()
+	if !dead:
+		update_agent()
 
-	if has_grown:
-		pursue_blend.is_enabled = true
+		if has_grown:
+			pursue_blend.is_enabled = true
 
 
-	priority.calculate_steering(acceleration)
+		priority.calculate_steering(acceleration)
 
-	_velocity = (_velocity + Vector2(acceleration.linear.x, acceleration.linear.y) * delta).clamped(
-		agent.linear_speed_max)
-	_velocity = _velocity.linear_interpolate(Vector2.ZERO, linear_drag)
-	# print(self.name + " velocity: " + str(_velocity))  # NOTE: That this will be n*60 every second; with n being the number of cubes on the map
+		_velocity = (_velocity + Vector2(acceleration.linear.x, acceleration.linear.y) * delta).clamped(
+			agent.linear_speed_max)
+		_velocity = _velocity.linear_interpolate(Vector2.ZERO, linear_drag)
+		# print(self.name + " velocity: " + str(_velocity))  # NOTE: That this will be n*60 every second; with n being the number of cubes on the map
 
-	#TODO: Based on _velocity x and y values set the animation in that direction OR NOTE that it may be needed on
-	# angular_velocity I am not totally sure
+		#TODO: Based on _velocity x and y values set the animation in that direction OR NOTE that it may be needed on
+		# angular_velocity I am not totally sure
 
-	_animate(_velocity)
-	_velocity = move_and_slide(_velocity)
+		_animate(_velocity)
+		_velocity = move_and_slide(_velocity)
 
 
 func die() -> void:
-	$AnimatedSprite.play("die")
-	$AnimatedSprite.connect("animation_finished", self, "queue_free")
+	if !dead:  # NOTE: I don't want to do this twice for some reason
+		dead = true
+		$AnimatedSprite.play("die")
+		$AnimatedSprite.connect("animation_finished", self, "queue_free")
 
 
 func _animate(dir: Vector2) -> void:
-	if has_grown:
-		if dir.x < 0:
-			$AnimatedSprite.flip_h = false
-			$AnimatedSprite.play("jump")
-		if dir.x > 0:
-			$AnimatedSprite.flip_h = true
-			$AnimatedSprite.play("jump")
-		if dir.y < 0 and dir.x == 0:
-			$AnimatedSprite.play("jump_up")
-		if dir.y > 0 and dir.x == 0:
-			$AnimatedSprite.play("jump_down")
+	if !dead:
+		if has_grown:
+			if dir.x < 0:
+				$AnimatedSprite.flip_h = false
+				$AnimatedSprite.play("jump")
+			if dir.x > 0:
+				$AnimatedSprite.flip_h = true
+				$AnimatedSprite.play("jump")
+			if dir.y < 0 and dir.x == 0:
+				$AnimatedSprite.play("jump_up")
+			if dir.y > 0 and dir.x == 0:
+				$AnimatedSprite.play("jump_down")
 
 
 func grow() -> void:
-	if !has_grown:
+	if !has_grown and !dead:
 		$AnimatedSprite.play("grow")
 		$GrowTimer.start()
 
 
 func shrink() -> void:
-	if has_grown:
+	if has_grown and !dead:
 		$AnimatedSprite.play("shrink")
 		has_grown = false
 		pursue_blend.is_enabled = false
 
+func being_attacked(damage: int) -> void:
+	hitpoints -= damage
+	if hitpoints < 0:
+		die()
+
+
 
 func _on_Hitbox_body_entered(body: Node) -> void:
-	if body.name == "Philippos":
+	if body.name == "Philippos" and !dead:
 		body.being_attacked(damage_dealt)
 		$HurtPhilipposTimer.start()
 
 
 func _on_Hitbox_body_exited(body: Node) -> void:
-	if !$HurtPhilipposTimer.is_stopped():
+	if !$HurtPhilipposTimer.is_stopped() and !dead:
 		$HurtPhilipposTimer.stop()
 
 

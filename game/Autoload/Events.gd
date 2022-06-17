@@ -13,7 +13,7 @@ signal philippos_died
 
 
 # Cyndi
-signal found_cyndi
+signal cyndi_found
 signal cyndi_health_changed(health)
 signal cyndi_died
 signal closest_cublins_attack_cyndi

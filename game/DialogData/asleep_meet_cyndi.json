@@ -1,29 +1,63 @@
 {
     "dialog": [
         {
+            "character": "Philippos",
+            "texture": "Philippos_large_asleep.png",
+            "text": "You seem to be safe. At least for now.",
+            "animation": "",
+            "trigger": ""
+        },
+        {
             "character": "Cyndi",
             "texture": "Cyndi_large_asleep.png",
-            "text": "Help! Help! Cublins are attacking me! Help!",
+            "text": "Thank you! But I am not safe yet. I can't get home! I'm stuck.",
             "animation": "",
             "trigger": ""
         },
         {
             "character": "Philippos",
             "texture": "Philippos_large_asleep.png",
-            "text": "What's a cublin??",
+            "text": "Oh. Why are you stuck?",
             "animation": "",
             "trigger": ""
         },
         {
             "character": "Cyndi",
             "texture": "Cyndi_large_asleep.png",
-            "text": "HELP!",
+            "text": "You see this is Square Island. I'm not from square island. I'm... I'm from Circle City, but the way is blocked.",
+            "animation": "",
+            "trigger": ""
+        },
+        {
+            "character": "Philippos",
+            "texture": "Philippos_large_asleep.png",
+            "text": "Oh.",
+            "animation": "",
+            "trigger": ""
+        },
+        {
+            "character": "Cyndi",
+            "texture": "Cyndi_large_asleep.png",
+            "text": "Wait do you know how to calculate the area of a square?",
+            "animation": "",
+            "trigger": ""
+        },
+        {
+            "character": "Philippos",
+            "texture": "Philippos_large_asleep.png",
+            "text": "Geometry? Why is geometry important? No, I, do not know how to calculate the area of a square. Do you?",
+            "animation": "",
+            "trigger": ""
+        },
+        {
+            "character": "Cyndi",
+            "texture": "Cyndi_large_asleep.png",
+            "text": "Because we need it to use the gate.",
             "animation": "",
             "trigger": ""
         }
     ],
 
     "end_events": [
-        {"event": {"trigger": "closest_cublins_attack_cyndi"}, "type": "trigger"}
     ]
 }

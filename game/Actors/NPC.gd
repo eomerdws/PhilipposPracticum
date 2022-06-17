@@ -29,8 +29,11 @@ onready var philippos: Node = get_tree().get_nodes_in_group("Philippos")[0]
 onready var philippos_agent: GSAISteeringAgent = philippos.agent
 var philippos_dead: bool = false
 onready var proximity := GSAIRadiusProximity.new(agent, [philippos_agent], proximity_radius)
+var dead: bool = false
 
 
+func _ready() -> void:
+	Events.connect("dialog_opened", self, "dialog_pause")
 
 func update_agent() -> void:
 	# From godot-steering-ai-framework getting started
@@ -63,3 +66,8 @@ func change_type(type: String) -> void:
 			npc_type = NPC_TYPE.neutral
 		_:
 			npc_type = NPC_TYPE.neutral
+
+
+func dialog_pause() -> void:
+	if npc_type == NPC_TYPE.enemy:
+		yield(Events, "dialog_completed")

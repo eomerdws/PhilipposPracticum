@@ -9,6 +9,7 @@ onready var priorty := GSAIBlend.new(agent)
 
 func _ready() -> void:
 	Events.emit_signal("cyndi_health_changed", hitpoints)
+	Events.connet("cyndi_found", self, "_on_cyndi_found")
 	$IdleTimer.start()
 	agent.linear_speed_max = speed_max
 	agent.linear_acceleration_max = accel_max
@@ -32,7 +33,6 @@ func idle() -> void:
 	print("Start godot-ai-steering behavior here!")
 
 
-
 func being_attacked(damage: int) -> void:
 	hitpoints -= damage
 	_under_attack = true
@@ -49,3 +49,7 @@ func _on_IdleTimer_timeout() -> void:
 	if !_under_attack:
 		idle()
 		$IdleTimer.start()
+
+
+func _on_cyndi_found() -> void:
+	Gamestate.open_dialog("asleep_meet_cyndi.json")

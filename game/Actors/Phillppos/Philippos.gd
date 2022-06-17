@@ -220,6 +220,16 @@ func _on_Hurtbox_body_exited(body: Node) -> void:
 	pass # Replace with function body.
 
 
+func _on_IdleTimer_timeout() -> void:
+	pass # Replace with function body.
+
+
+func _on_Attack_body_entered(body:Node) -> void:
+	if body.name.begins_with("CubeEnemy"):
+		print("Attack Cube!!")
+		body.being_attacked(80)
+
+
 func being_attacked(damage: int) -> void:
 	if !_die:
 		health -= damage
@@ -240,5 +250,3 @@ func die() -> void:
 		print("Died and now need to start the main menu or the level over")
 
 
-func _on_IdleTimer_timeout() -> void:
-	pass # Replace with function body.
