@@ -14,7 +14,7 @@ extents = Vector2( 30, 25 )
 
 [sub_resource type="CapsuleShape2D" id=82]
 radius = 13.9999
-height = 26.0
+height = 38.0002
 
 [sub_resource type="CapsuleShape2D" id=83]
 radius = 13.0
@@ -22,7 +22,6 @@ radius = 13.0
 [node name="Philippos" type="KinematicBody2D" groups=["Philippos"]]
 collision_mask = 126
 script = ExtResource( 2 )
-awake = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = ExtResource( 1 )
@@ -77,6 +76,7 @@ one_shot = true
 autostart = true
 
 [connection signal="body_entered" from="Attack" to="." method="_on_Attack_body_entered"]
+[connection signal="body_exited" from="Attack" to="." method="_on_Attack_body_exited"]
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]
 [connection signal="body_exited" from="Hurtbox" to="." method="_on_Hurtbox_body_exited"]
 [connection signal="timeout" from="IdleTimer" to="." method="_on_IdleTimer_timeout"]

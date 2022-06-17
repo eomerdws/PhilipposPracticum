@@ -12,6 +12,9 @@ onready var cyndi_agent: GSAISteeringAgent = cyndi.agent
 func _ready() -> void:
 	change_type("enemy")
 	Events.connect("philippos_died", self, "_on_philippos_dead")
+	# TODO: Determine if the below signal and it's method belong in the upper NPC class
+	Events.connect("philippos_attacked_enemy", self, "_on_being_attacked")
+
 	agent.linear_speed_max = speed_max
 	agent.linear_acceleration_max = accel_max
 	agent.angular_speed_max = deg2rad(angular_speed_max)
@@ -63,7 +66,10 @@ func _on_Detection_body_exited(body: Node) -> void:
 
 
 func _on_ChaseTimer_timeout() -> void:
-	shrink()
+	pass
+	# FIXME: This is breaking some implementation because it is shutting down the cube even if it is
+	# actively being attacked
+	#shrink()
 
 
 func _on_GrowTimer_timeout() -> void:
@@ -131,10 +137,13 @@ func shrink() -> void:
 		has_grown = false
 		pursue_blend.is_enabled = false
 
-func being_attacked(damage: int) -> void:
-	hitpoints -= damage
-	if hitpoints < 0:
-		die()
+
+func _on_being_attacked(_name: String, damage: int) -> void:
+	if _name == name:
+		hitpoints -= damage
+		print(name + ": " + str(hitpoints))
+		if hitpoints < 0:
+			die()
 
 
 

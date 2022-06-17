@@ -24,6 +24,8 @@ var _angular_velocity: float = 0.0
 var current_status: String
 enum possible_directions {left, right, up, down}
 var _current_direction = possible_directions.down
+var _enemy_atack_range: bool = false
+var _enemies_attack: PoolStringArray
 
 onready var agent := GSAISteeringAgent.new()
 
@@ -83,6 +85,9 @@ func _walk_animation(input: Vector2, delta: float) -> void:
 	if _attacking and !_sleep and input.x == 0 and input.y == 0:
 		# TODO: With the new system determine if this condition can be simplified
 		$AnimatedSprite.play(get_animation_by_dir("attack"))
+		if _enemy_atack_range:
+			for e in _enemies_attack:
+				Events.emit_signal("philippos_attacked_enemy", e, 100)  # Attack a specific enemy name and let the enemy handle damage
 
 	attack_rotation()
 	if !_sleep and !_attacking and !_die:
@@ -226,8 +231,21 @@ func _on_IdleTimer_timeout() -> void:
 
 func _on_Attack_body_entered(body:Node) -> void:
 	if body.name.begins_with("CubeEnemy"):
-		print("Attack Cube!!")
-		body.being_attacked(80)
+		print(body.name + " added to attack range")
+		_enemy_atack_range = true
+		_enemies_attack.append(body.name)
+
+
+func _on_Attack_body_exited(body: Node) -> void:
+	if body.name.begins_with("CubeEnemy"):
+		var c: int = 0
+		while _enemies_attack.size() > c:
+			print("Removed from attack range: " + _enemies_attack[c])
+			_enemies_attack.remove(c)
+			c += 1
+
+		if _enemies_attack.size() < 1:
+			_enemy_atack_range = false
 
 
 func being_attacked(damage: int) -> void:
@@ -248,5 +266,7 @@ func die() -> void:
 		Events.emit_signal("philippos_died")
 		# TODO: Determine if we restart the level or have a menu or what
 		print("Died and now need to start the main menu or the level over")
+
+
 
 

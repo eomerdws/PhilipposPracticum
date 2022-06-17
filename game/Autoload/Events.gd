@@ -10,6 +10,7 @@ signal transition_halfway(name)
 signal dialog_calls_animation_play(character, animation)
 signal philippos_health_changed(health)
 signal philippos_died
+signal philippos_attacked_enemy(name, damage_dealt)
 
 
 # Cyndi

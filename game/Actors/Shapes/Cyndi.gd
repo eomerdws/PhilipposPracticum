@@ -9,7 +9,7 @@ onready var priorty := GSAIBlend.new(agent)
 
 func _ready() -> void:
 	Events.emit_signal("cyndi_health_changed", hitpoints)
-	Events.connet("cyndi_found", self, "_on_cyndi_found")
+	Events.connect("cyndi_found", self, "_on_cyndi_found")
 	$IdleTimer.start()
 	agent.linear_speed_max = speed_max
 	agent.linear_acceleration_max = accel_max
