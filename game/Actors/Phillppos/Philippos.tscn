@@ -75,8 +75,12 @@ wait_time = 10.0
 one_shot = true
 autostart = true
 
+[node name="AttackCooldown" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="body_entered" from="Attack" to="." method="_on_Attack_body_entered"]
 [connection signal="body_exited" from="Attack" to="." method="_on_Attack_body_exited"]
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]
 [connection signal="body_exited" from="Hurtbox" to="." method="_on_Hurtbox_body_exited"]
 [connection signal="timeout" from="IdleTimer" to="." method="_on_IdleTimer_timeout"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]

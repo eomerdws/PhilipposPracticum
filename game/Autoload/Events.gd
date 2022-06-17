@@ -22,3 +22,6 @@ signal closest_cublins_attack_cyndi
 # Dialog
 signal dialog_completed
 signal dialog_trigger_end
+
+
+signal enemy_killed(name)

@@ -30,6 +30,7 @@ onready var philippos_agent: GSAISteeringAgent = philippos.agent
 var philippos_dead: bool = false
 onready var proximity := GSAIRadiusProximity.new(agent, [philippos_agent], proximity_radius)
 var dead: bool = false
+var being_attacked: bool = false
 
 
 func _ready() -> void:

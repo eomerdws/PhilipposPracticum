@@ -85,9 +85,7 @@ func _walk_animation(input: Vector2, delta: float) -> void:
 	if _attacking and !_sleep and input.x == 0 and input.y == 0:
 		# TODO: With the new system determine if this condition can be simplified
 		$AnimatedSprite.play(get_animation_by_dir("attack"))
-		if _enemy_atack_range:
-			for e in _enemies_attack:
-				Events.emit_signal("philippos_attacked_enemy", e, 100)  # Attack a specific enemy name and let the enemy handle damage
+		attack()
 
 	attack_rotation()
 	if !_sleep and !_attacking and !_die:
@@ -110,6 +108,14 @@ func attack_rotation() -> void:
 			rotate_attack = 1.570796
 
 	$Attack.rotation = rotate_attack
+
+
+func attack() -> void:
+	if _enemy_atack_range and $AttackCooldown.is_stopped():
+			for e in _enemies_attack:
+				print("Attack: " + str(e))
+				Events.emit_signal("philippos_attacked_enemy", e, 10)  # Attack a specific enemy name and let the enemy handle damage
+				$AttackCooldown.start()
 
 
 func get_animation_by_dir(type_animation: String) -> String:
@@ -238,14 +244,19 @@ func _on_Attack_body_entered(body:Node) -> void:
 
 func _on_Attack_body_exited(body: Node) -> void:
 	if body.name.begins_with("CubeEnemy"):
-		var c: int = 0
-		while _enemies_attack.size() > c:
+		remove_enemy_attacking_by_name(body.name)
+
+
+func remove_enemy_attacking_by_name(_name: String) -> void:
+	var c: int = 0
+	while _enemies_attack.size() > c:
+		if _enemies_attack[c] == _name:
 			print("Removed from attack range: " + _enemies_attack[c])
 			_enemies_attack.remove(c)
-			c += 1
+		c += 1
 
-		if _enemies_attack.size() < 1:
-			_enemy_atack_range = false
+	if _enemies_attack.size() < 1:
+		_enemy_atack_range = false
 
 
 func being_attacked(damage: int) -> void:
@@ -268,5 +279,9 @@ func die() -> void:
 		print("Died and now need to start the main menu or the level over")
 
 
+func _on_enemy_killed(_name: String) -> void:
+	remove_enemy_attacking_by_name(_name)
 
 
+func _on_AttackCooldown_timeout() -> void:
+	pass # Replace with function body.

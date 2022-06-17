@@ -66,10 +66,10 @@ func _on_Detection_body_exited(body: Node) -> void:
 
 
 func _on_ChaseTimer_timeout() -> void:
-	pass
 	# FIXME: This is breaking some implementation because it is shutting down the cube even if it is
 	# actively being attacked
-	#shrink()
+	if !being_attacked and !dead:
+		shrink()
 
 
 func _on_GrowTimer_timeout() -> void:
@@ -105,14 +105,18 @@ func _physics_process(delta: float) -> void:
 
 func die() -> void:
 	if !dead:  # NOTE: I don't want to do this twice for some reason
+		print(name + " is dead!")
+		Events.emit_signal("enemy_killed", name)
 		dead = true
+
 		$AnimatedSprite.play("die")
-		$AnimatedSprite.connect("animation_finished", self, "queue_free")
+		yield($AnimatedSprite, "animation_finished")
+		queue_free()
 
 
 func _animate(dir: Vector2) -> void:
 	if !dead:
-		if has_grown:
+		if has_grown and !being_attacked:  # NOTE: If it is being attacked we want the hurt animation to play
 			if dir.x < 0:
 				$AnimatedSprite.flip_h = false
 				$AnimatedSprite.play("jump")
@@ -123,6 +127,8 @@ func _animate(dir: Vector2) -> void:
 				$AnimatedSprite.play("jump_up")
 			if dir.y > 0 and dir.x == 0:
 				$AnimatedSprite.play("jump_down")
+		elif has_grown and being_attacked:
+			$AnimatedSprite.play("hurt")
 
 
 func grow() -> void:
@@ -132,7 +138,7 @@ func grow() -> void:
 
 
 func shrink() -> void:
-	if has_grown and !dead:
+	if has_grown and !dead and !being_attacked:
 		$AnimatedSprite.play("shrink")
 		has_grown = false
 		pursue_blend.is_enabled = false
@@ -140,21 +146,24 @@ func shrink() -> void:
 
 func _on_being_attacked(_name: String, damage: int) -> void:
 	if _name == name:
+		being_attacked = true
 		hitpoints -= damage
 		print(name + ": " + str(hitpoints))
-		if hitpoints < 0:
+
+		if hitpoints < 1:
+			being_attacked = false
 			die()
 
 
-
 func _on_Hitbox_body_entered(body: Node) -> void:
-	if body.name == "Philippos" and !dead:
+	if body.name == "Philippos" and has_grown and !dead:
 		body.being_attacked(damage_dealt)
 		$HurtPhilipposTimer.start()
 
 
 func _on_Hitbox_body_exited(body: Node) -> void:
 	if !$HurtPhilipposTimer.is_stopped() and !dead:
+		being_attacked = false
 		$HurtPhilipposTimer.stop()
 
 

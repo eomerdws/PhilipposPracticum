@@ -11,7 +11,7 @@ const DIALOG_ROOT: String = "res://DialogData/"
 
 func _ready() -> void:
 	Events.connect("dialog_calls_animation_play", self, "dialog_play_animation")
-	Events.connect("found_cyndi", self, "_philippos_found_cyndi")
+	Events.connect("cyndi_found", self, "_philippos_found_cyndi")
 
 # Gamestate dialog controls
 func open_dialog(dialog_fname: String) -> void:
